@@ -7,15 +7,15 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --harmony --harmony-proxies"
+    "test": "mocha --harmony --harmony-proxies --recursive"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/violinjs/violin-annotations.git"
   },
   "keywords": [
-    "annotation"
-    "annotations",
+    "annotation",
+    "annotations"
   ],
   "author": "Jonathan ARNAULT <contact@jonathanarnault.com>",
   "license": "MIT",
