@@ -1,6 +1,6 @@
-# violin-autoloader
+# violin-annotations
 
-Autoloader for Node.Js
+Annotation parser for Node.js
 
 ## Installation
 
