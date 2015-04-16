@@ -1,0 +1,33 @@
+{
+  "name": "violin-annotations",
+  "version": "0.0.0",
+  "description": "Annotation parser for Node.js",
+  "main": "src/Parser.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --harmony --harmony-proxies"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/violinjs/violin-annotations.git"
+  },
+  "keywords": [
+    "annotation"
+    "annotations",
+  ],
+  "author": "Jonathan ARNAULT <contact@jonathanarnault.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/violinjs/violin-annotations/issues"
+  },
+  "homepage": "https://github.com/violinjs/violin-annotations/",
+  "devDependencies": {
+    "mocha": "^2.2.4",
+    "should": "^6.0.1"
+  },
+  "dependencies": {
+    "stringscanner": "0.0.3"
+  }
+}
