@@ -102,86 +102,89 @@ Es5Reader.prototype.parse = function (callback) {
         block = [],
         annotations = [];
 
-    while (this.tokenizer.hasMoreTokens()) {
-        token = this.tokenizer.nextToken();
+    try {
+        while (this.tokenizer.hasMoreTokens()) {
+            token = this.tokenizer.nextToken();
 
-        if (this.state === Es5Reader.State.READING) {
-            if (token === "/**") {
-                this.state = Es5Reader.State.IN_COMMENT;
-                block = [];
-            }
-            continue;
-        }
-
-
-        // Parse annotations
-        if (this.state === Es5Reader.State.IN_ANNOTATION) {
-            if (token[0] === "@" || token === "*") {
-                annotation = "";
-                this.state = Es5Reader.State.IN_COMMENT;
-            } else {
-                annotation += token;
-                if (annotation.substr(-1) === ")") {
-                    if (-1 < annotation.indexOf("(")) {
-                        block.push(annotation.substring(1));
-                    }
+            if (this.state === Es5Reader.State.READING) {
+                if (token === "/**") {
                     this.state = Es5Reader.State.IN_COMMENT;
-                    continue;
+                    block = [];
                 }
-            }
-        }
-
-        // Parse comments
-        if (this.state === Es5Reader.State.IN_COMMENT) {
-            if (token === "*/") {
-                this.state = Es5Reader.State.IN_TARGET;
                 continue;
             }
 
-            if (token[0] === "@") {
-                if (token.substr(-1) === ")") {
-                    block.push(token.substring(1));
+            // Parse annotations
+            if (this.state === Es5Reader.State.IN_ANNOTATION) {
+                if (token[0] === "@" || token === "*") {
+                    annotation = "";
+                    this.state = Es5Reader.State.IN_COMMENT;
+                } else {
+                    annotation += token;
+                    if (annotation.substr(-1) === ")") {
+                        if (-1 < annotation.indexOf("(")) {
+                            block.push(annotation.substring(1));
+                        }
+                        this.state = Es5Reader.State.IN_COMMENT;
+                        continue;
+                    }
+                }
+            }
+
+            // Parse comments
+            if (this.state === Es5Reader.State.IN_COMMENT) {
+                if (token === "*/") {
+                    this.state = Es5Reader.State.IN_TARGET;
                     continue;
                 }
-                annotation = token;
-                this.state = Es5Reader.State.IN_ANNOTATION;
+
+                if (token[0] === "@") {
+                    if (token.substr(-1) === ")") {
+                        block.push(token.substring(1));
+                        continue;
+                    }
+                    annotation = token;
+                    this.state = Es5Reader.State.IN_ANNOTATION;
+                }
+                continue;
             }
-            continue;
+
+            // Parse annotation target
+            if (this.state === Es5Reader.State.IN_TARGET) {
+                var found = false,
+                    matches;
+                target += token;
+
+                if (matches = target.match(Es5Reader.CLASS_REGEX)) {
+                    annotations.push({
+                        type: Target.CLASS_ANNOTATION,
+                        target: matches[1],
+                        annotations: block
+                    });
+                    found = true;
+                }
+
+                if (matches = target.match(Es5Reader.PROTO_REGEX)) {
+                    annotations.push(this.parsePrototype(matches, block));
+                    found = true;
+                }
+
+                if (matches = target.match(Es5Reader.DEF_REGEX)) {
+                    annotations.push(this.parsePrototype(matches, block));
+                    found = true;
+                }
+
+                if (found) {
+                    target = "";
+                    this.state = Es5Reader.State.READING;
+                }
+            }
         }
 
-        // Parse annotation target
-        if (this.state === Es5Reader.State.IN_TARGET) {
-            var found = false,
-                matches;
-            target += token;
-
-            if (matches = target.match(Es5Reader.CLASS_REGEX)) {
-                annotations.push({
-                    type: Target.CLASS_ANNOTATION,
-                    target: matches[1],
-                    annotations: block
-                });
-                found = true;
-            }
-
-            if (matches = target.match(Es5Reader.PROTO_REGEX)) {
-                annotations.push(this.parsePrototype(matches, block));
-                found = true;
-            }
-
-            if (matches = target.match(Es5Reader.DEF_REGEX)) {
-                annotations.push(this.parsePrototype(matches, block));
-                found = true;
-            }
-
-            if (found) {
-                target = "";
-                this.state = Es5Reader.State.READING;
-            }
-        }
+        callback(undefined, annotations);
+    } catch (err) {
+        return callback(err);
     }
-
-    callback(null, annotations);
 };
 
 /**
