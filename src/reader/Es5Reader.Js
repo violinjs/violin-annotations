@@ -157,7 +157,7 @@ Es5Reader.prototype.parse = function (callback) {
 
             if (matches = target.match(Es5Reader.CLASS_REGEX)) {
                 annotations.push({
-                    type: Target.KLASS,
+                    type: Target.CLASS_ANNOTATION,
                     target: matches[1],
                     annotations: block
                 });
@@ -193,13 +193,13 @@ Es5Reader.prototype.parse = function (callback) {
 Es5Reader.prototype.parsePrototype = function (matches, block) {
     if (matches[2].match(Es5Reader.FUNC_REGEX)) {
         return {
-            type: Target.METHOD,
+            type: Target.METHOD_ANNOTATION,
             target: matches[1],
             annotations: block
         };
     }
     return {
-        type: Target.PROPERTY,
+        type: Target.PROPERTY_ANNOTATION,
         target: matches[1],
         annotations: block
     };
