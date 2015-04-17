@@ -1,6 +1,7 @@
 /**
  * String Tokenizer
  * @constructor
+ * @memberOf {violin.annotations.reader.tokenizer}
  * @param {String} tokenizer
  */
 var Tokenizer = function (str) {
