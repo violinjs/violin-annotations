@@ -10,7 +10,8 @@ var Tokenizer = require(path.join(
 var HELLO = "Hello",
     WORLD = "world",
     EXCL = "!",
-    HELLO_WORLD = util.format("%s \n%s %s", HELLO, WORLD, EXCL);
+    HELLO_WORLD = util.format("%s \n%s %s", HELLO, WORLD, EXCL),
+    SPACES = "\"Hello world\"";
 
 describe("reader.tokenizer.Tokenizer", function () {
 
@@ -46,6 +47,11 @@ describe("reader.tokenizer.Tokenizer", function () {
                 tokenizer.nextToken();
             }
             tokenizer.nextToken().should.be.equal("");
+        });
+
+        it("should return a string with spaces with it is between spaces", function () {
+            var tokenizer = new Tokenizer(SPACES);
+            tokenizer.nextToken().should.be.equal(SPACES);
         });
     });
 

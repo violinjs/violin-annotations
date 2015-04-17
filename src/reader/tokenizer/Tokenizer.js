@@ -10,6 +10,7 @@ var Tokenizer = function (str) {
     }
     this.str = str;
     this.pos = 0;
+    this.inString = false;
 };
 
 Tokenizer.prototype = {
@@ -24,7 +25,12 @@ Tokenizer.prototype = {
      * Tokenizer position
      * @var {Number}
      */
-    pos: 0
+    pos: 0,
+
+    /**
+     * Whether tokenizer is parsing a String
+     */
+    inString: false
 };
 
 Tokenizer.WHITE_SPACES = /\s/;
@@ -48,12 +54,19 @@ Tokenizer.prototype.nextToken = function () {
 
     var token = "";
     for (var i = this.pos; i < this.str.length; i++) {
+        var c = this.str[i];
         this.pos++;
 
-        if (this.str[i].match(Tokenizer.WHITE_SPACES)) {
+        if (c === '"') {
+            if (this.str[i - 1] !== "\\") {
+                this.inString = !this.inString;
+            }
+        }
+
+        if (c.match(Tokenizer.WHITE_SPACES) && !this.inString) {
             break;
         }
-        token += this.str[i];
+        token += c;
     }
 
     return token != "" ? token : this.nextToken();
