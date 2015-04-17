@@ -1,7 +1,8 @@
 /**
  * Test class
  * @constructor
- * @ConstructorAnnotation(i=0, s="string", a={"0", "1"})
+ * @c.ConstructorAnnotation("a=b", 0, d=0.5, s="string = \"{}\"", t={"a", "b{}", {"d"}, {}}, i=0)
+ * @AnotherAnnotation()
  */
 function A() {
 
