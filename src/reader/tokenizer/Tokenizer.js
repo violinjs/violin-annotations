@@ -69,6 +69,10 @@ Tokenizer.prototype.nextToken = function () {
         token += c;
     }
 
+    if (this.inString) {
+        throw new Error("An error occurred : Expected String end");
+    }
+
     return token != "" ? token : this.nextToken();
 };
 
