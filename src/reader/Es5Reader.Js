@@ -63,7 +63,6 @@ Es5Reader.DEF_REGEX = new RegExp(Es5Reader.DEF_PATTERN, "i");
 
 /**
  * Read file
- * @param filename File to read
  * @param callback Annotations
  * @public
  */
@@ -180,7 +179,6 @@ Es5Reader.prototype.parse = function (callback) {
                 }
             }
         }
-
         callback(undefined, annotations);
     } catch (err) {
         return callback(err);

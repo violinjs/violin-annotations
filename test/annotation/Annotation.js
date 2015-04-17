@@ -3,7 +3,7 @@ var path = require("path");
 var Annotation = require(path.join(__dirname, "..", "..", "src", "annotation", "Annotation.js"));
 
 
-describe("Annotation", function () {
+describe("annotation.Annotation", function () {
     var annotation = new Annotation();
 
     describe("#getTarget()", function () {
@@ -15,7 +15,7 @@ describe("Annotation", function () {
     describe("#getName()", function () {
 
         it("should be an abstract method", function () {
-            (annotation.getName() === undefined).should.be.true;
+            (Annotation.getName() === undefined).should.be.true;
         });
     });
 });

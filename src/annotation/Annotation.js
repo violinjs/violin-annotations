@@ -27,7 +27,7 @@ Annotation.prototype.getTargets = function () {
  * @abstract
  * @returns {String}
  */
-Annotation.prototype.getName = function () {
+Annotation.getName = function () {
 
 };
 

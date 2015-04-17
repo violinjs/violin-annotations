@@ -2,21 +2,29 @@ var path = require("path"),
     async = require("async");
 
 var Es5Reader = require(path.join(__dirname, "reader", "Es5Reader.js")),
-    Target = require(path.join(__dirname, "Target.js"));
+    Registry = require(path.join(__dirname, "registry", "Registry.js"))
+Target = require(path.join(__dirname, "Target.js"));
 
 
 /**
  * This class represents an annotation parser
  * @constructor
  * @memberOf {violin.annotations}
+ * @param {violin.annotations.registry.Registry} registry Annotation registry
  * @param {Function} Reader File reader
  */
-function Parser(Reader) {
+function Parser(registry, Reader) {
     if (!Reader) {
         Reader = Es5Reader;
     }
 
+    if (!registry) {
+        registry = new Registry();
+    }
+
+    this.registry = registry
     this.Reader = Reader;
+    this.cache = {};
 }
 
 Parser.prototype = {
@@ -25,7 +33,18 @@ Parser.prototype = {
      * File reader
      * @var {Reader}
      */
-    Reader: null
+    Reader: null,
+
+    /**
+     * Annotation registry
+     * @type {violin.annotations.registry.Registry}
+     */
+    registry: null,
+
+    /**
+     * Annotations cache
+     */
+    cache: {}
 };
 
 /**
@@ -39,12 +58,24 @@ Parser.State = {
 };
 
 /**
+ * Get registry
+ * @returns {violin.annotations.registry.Registry}
+ */
+Parser.prototype.getRegistry = function () {
+    return this.registry;
+};
+
+/**
  * Parse a file
  * @param {String} filename
  * @param {Function} callback
  * @public
  */
 Parser.prototype.parseFile = function (filename, callback) {
+    if (undefined !== this.cache[filename]) {
+        return callback(null, this.cache[filename]);
+    }
+
     var self = this;
     if (typeof filename !== "string") {
         throw new Error("Filename should be a String");
@@ -101,6 +132,9 @@ Parser.prototype.parseFile = function (filename, callback) {
             }
             cb();
         }, function (err) {
+            if (!err) {
+                self.cache[filename] = formattedAnnotations;
+            }
             callback(err, formattedAnnotations);
         });
     });
