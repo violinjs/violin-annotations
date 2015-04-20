@@ -7,19 +7,14 @@ var Annotation = require(path.join(__dirname, "..", "..", "..", "src", "annotati
 function ClassAnnotation(parameters) {
     Annotation.call(this, parameters);
 }
+util.inherits(ClassAnnotation, Annotation);
 
-ClassAnnotation.prototype = {
+ClassAnnotation.prototype.a = "Hello";
+ClassAnnotation.prototype.d = null;
+ClassAnnotation.prototype.i = null;
+ClassAnnotation.prototype.s = null;
+ClassAnnotation.prototype.t = null;
 
-    a: "Hello",
-
-    d: null,
-
-    i: null,
-
-    s: null,
-
-    t: null
-};
 
 ClassAnnotation.getTargets = function () {
     return [

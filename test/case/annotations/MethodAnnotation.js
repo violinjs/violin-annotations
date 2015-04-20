@@ -7,10 +7,9 @@ var Annotation = require(path.join(__dirname, "..", "..", "..", "src", "annotati
 function MethodAnnotation(parameters) {
     Annotation.call(this, parameters);
 }
+util.inherits(MethodAnnotation, Annotation);
 
-MethodAnnotation.prototype = {
-    hello: "World"
-};
+MethodAnnotation.prototype.hello = "World";
 
 MethodAnnotation.getTargets = function () {
     return [
