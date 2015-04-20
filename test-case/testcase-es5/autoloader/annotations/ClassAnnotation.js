@@ -1,7 +1,8 @@
 var path = require("path"),
     util = require("util");
 
-var Annotation = violin.annotations.annotation.Annotation;
+var Annotation = violin.annotations.annotation.Annotation,
+    Target = violin.annotations.Target;
 
 function ClassAnnotation(parameters) {
     Annotation.call(this, parameters);
