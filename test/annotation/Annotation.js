@@ -4,11 +4,9 @@ var Annotation = require(path.join(__dirname, "..", "..", "src", "annotation", "
 
 
 describe("annotation.Annotation", function () {
-    var annotation = new Annotation();
-
     describe("#getTarget()", function () {
         it("should return an Array", function () {
-            annotation.getTargets().should.be.an.Array;
+            Annotation.getTargets().should.be.an.Array;
         });
     });
 

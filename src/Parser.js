@@ -96,35 +96,32 @@ Parser.prototype.parseFile = function (filename, callback) {
         formattedAnnotations.propertiesAnnotations = {};
 
         async.each(annotations, function (annotation, cb) {
+            var annotations;
             try {
                 switch (annotation.type) {
 
                     // Parse class annotations
                     case Target.CLASS_ANNOTATION:
                         formattedAnnotations.classAnnotations =
-                            formattedAnnotations.classAnnotations.concat(
-                                self.parseAnnotations(annotation.annotations)
-                            );
+                            self.parseAnnotations(annotation.annotations, annotation.type);
                         break;
+
+                    // Parse methods annotations
                     case Target.METHOD_ANNOTATION:
-                        if (undefined === formattedAnnotations.methodsAnnotations[annotation.target]) {
-                            formattedAnnotations.methodsAnnotations[annotation.target] = [];
+                        annotations = self.parseAnnotations(annotation.annotations, annotation.type);
+
+                        if (annotations.length > 0) {
+                            formattedAnnotations.methodsAnnotations[annotation.target] = annotations;
                         }
-                        formattedAnnotations.methodsAnnotations[annotation.target] =
-                            formattedAnnotations.methodsAnnotations[annotation.target].concat(
-                                self.parseAnnotations(annotation.annotations)
-                            );
                         break;
 
+                    // Parse properties annotations
                     case Target.PROPERTY_ANNOTATION:
-                        if (undefined === formattedAnnotations.propertiesAnnotations[annotation.target]) {
-                            formattedAnnotations.propertiesAnnotations[annotation.target] = [];
-                        }
+                        annotations = self.parseAnnotations(annotation.annotations, annotation.type);
 
-                        formattedAnnotations.propertiesAnnotations[annotation.target] =
-                            formattedAnnotations.propertiesAnnotations[annotation.target].concat(
-                                self.parseAnnotations(annotation.annotations)
-                            );
+                        if (annotations.length > 0) {
+                            formattedAnnotations.propertiesAnnotations[annotation.target] = annotations;
+                        }
                         break;
                 }
             } catch (err) {
@@ -340,14 +337,31 @@ Parser.prototype.toggleString = function (current, previous) {
 
 /**
  * Parse annotations
- * @param annotations
+ * @param annotations Annotations to parse
+ * @param type Annotation type
  * @private
  */
-Parser.prototype.parseAnnotations = function (annotations) {
+Parser.prototype.parseAnnotations = function (annotations, type) {
     var parsedAnnotations = [];
     for (var i in annotations) {
         var parsedAnnotation = this.parseAnnotation(annotations[i]);
-        parsedAnnotations.push(parsedAnnotation);
+        try {
+            var Annotation = this.registry.getAnnotation(parsedAnnotation.className),
+                annotation = new Annotation(parsedAnnotation.parameters);
+
+            if (-1 === Annotation.getTargets().indexOf(type)) {
+                continue;
+            }
+
+            for (var j in parsedAnnotation.namedParameters) {
+                if (parsedAnnotation.namedParameters.hasOwnProperty(j)) {
+                    annotation[j] = parsedAnnotation.namedParameters[j];
+                }
+            }
+            parsedAnnotations.push(annotation);
+        } catch (e) {
+            continue;
+        }
     }
     return parsedAnnotations;
 };

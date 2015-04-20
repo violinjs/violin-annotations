@@ -1,8 +1,9 @@
 /**
  * Test class
  * @constructor
- * @ns.ConstructorAnnotation("a=b", 0, d=0.5, s="string = \"{}\"", t={"a", "b{}", {"d"}, {}}, i=0)
+ * @ns.ClassAnnotation("a=b", 0, d=0.5, s="string = \"{}\"", t={"a", "b{}", {"d"}, {}}, i=0)
  * @AnotherAnnotation()
+ * @MethodAnnotation()
  */
 function A() {
 

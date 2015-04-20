@@ -4,15 +4,11 @@ var path = require("path"),
 var Annotation = require(path.join(__dirname, "..", "..", "..", "src", "annotation", "Annotation.js")),
     Target = require(path.join(__dirname, "..", "..", "..", "src", "Target.js"));
 
-function ConstructorAnnotation(parameters) {
+function ClassAnnotation(parameters) {
     Annotation.call(this, parameters);
-
-    console.log(this);
-    console.log(parameters);
-    console.log(this.__proto__);
 }
 
-ConstructorAnnotation.prototype = {
+ClassAnnotation.prototype = {
 
     a: "Hello",
 
@@ -25,12 +21,18 @@ ConstructorAnnotation.prototype = {
     t: null
 };
 
+ClassAnnotation.getTargets = function () {
+    return [
+        Target.CLASS_ANNOTATION
+    ];
+};
 
 /**
  * @inheritDoc
  */
-ConstructorAnnotation.getName = function () {
-    return "ns.ConstructorAnnotation";
-};
+ClassAnnotation.getName =
+    ClassAnnotation.prototype.getName = function () {
+        return "ns.ClassAnnotation";
+    };
 
-module.exports = ConstructorAnnotation;
+module.exports = ClassAnnotation;
