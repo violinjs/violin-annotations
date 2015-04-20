@@ -4,12 +4,12 @@ var assert = require("assert"),
 
 var Parser = require(path.join(__dirname, "..", "src", "Parser.js"));
 
-var TEST_FILE = path.join(__dirname, "testcase", "classes", "A.js"),
-    STR_ERROR_FILE = path.join(__dirname, "testcase", "classes", "B.js"),
-    ARRAY_ERROR_FILE = path.join(__dirname, "testcase", "classes", "C.js");
+var TEST_FILE = path.join(ROOT, "test-case", "testcase-es5", "classes", "A.js"),
+    STR_ERROR_FILE = path.join(ROOT, "test-case", "testcase-es5", "classes", "B.js"),
+    ARRAY_ERROR_FILE = path.join(ROOT, "test-case", "testcase-es5", "classes", "C.js");
 
 
-var ANNOTATION_PATH = path.join(__dirname, "testcase", "annotations"),
+var ANNOTATION_PATH = path.join(ROOT, "test-case", "testcase-es5", "annotations"),
     CLASS_ANNOTATION = path.join(ANNOTATION_PATH, "ClassAnnotation.js"),
     METHOD_ANNOTATION = path.join(ANNOTATION_PATH, "MethodAnnotation.js"),
     PROPERTY_ANNOTATION = path.join(ANNOTATION_PATH, "PropertyAnnotation.js");

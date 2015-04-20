@@ -2,9 +2,9 @@ var assert = require("assert"),
     should = require("should"),
     path = require("path");
 
-var Registry = require(path.join(__dirname, "..", "..", "src", "registry", "Registry.js"));
+var Registry = require(path.join(ROOT, "src", "registry", "Registry.js"));
 
-var ANNOTATION_FILE = path.join(__dirname, "..", "testcase", "annotations", "ClassAnnotation.js"),
+var ANNOTATION_FILE = path.join(ROOT, "test-case", "testcase-es5", "annotations", "ClassAnnotation.js"),
     ANNOTATION_NAME = "ns.ClassAnnotation";
 
 var Annotation = require(ANNOTATION_FILE);

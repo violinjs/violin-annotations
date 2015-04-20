@@ -3,9 +3,7 @@ var assert = require("assert"),
     path = require("path"),
     util = require("util");
 
-var Tokenizer = require(path.join(
-    __dirname, "..", "..", "..", "src",
-    "reader", "tokenizer", "Tokenizer.js"));
+var Tokenizer = require(path.join(ROOT, "src", "reader", "tokenizer", "Tokenizer.js"));
 
 var HELLO = "Hello",
     WORLD = "world",

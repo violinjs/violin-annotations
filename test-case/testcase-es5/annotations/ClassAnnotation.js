@@ -1,8 +1,8 @@
 var path = require("path"),
     util = require("util");
 
-var Annotation = require(path.join(__dirname, "..", "..", "..", "src", "annotation", "Annotation.js")),
-    Target = require(path.join(__dirname, "..", "..", "..", "src", "Target.js"));
+var Annotation = require(path.join(ROOT, "src", "annotation", "Annotation.js")),
+    Target = require(path.join(ROOT, "src", "Target.js"));
 
 function ClassAnnotation(parameters) {
     Annotation.call(this, parameters);
