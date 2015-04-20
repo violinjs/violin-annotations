@@ -1,4 +1,6 @@
-var fs = require("fs");
+var assert = require("assert"),
+    should = require("should"),
+    fs = require("fs");
 
 /**
  * Annotation registry

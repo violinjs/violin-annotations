@@ -66,6 +66,18 @@ Parser.prototype.getRegistry = function () {
 };
 
 /**
+ * Parse a class
+ * @param C
+ * @param callback
+ */
+Parser.prototype.parseClass = function (C, callback) {
+    if (!C._autoloader || !C._autoloader.filename) {
+        throw new Error("Impossible to parse class, C._autoloader.filename required");
+    }
+    this.parseFile(C._autoloader.filename, callback);
+};
+
+/**
  * Parse a file
  * @param {String} filename
  * @param {Function} callback
@@ -318,7 +330,14 @@ Parser.prototype.parseParameter = function (parameter) {
     var val;
     if (!isNaN(val = parseFloat(value))) {
         value = val;
+    } else if (value == "true") {
+        value = true;
+    } else if (value == "false") {
+        value = false;
+    } else if (value == "null") {
+        value = null;
     }
+
     return {
         key: key,
         value: value

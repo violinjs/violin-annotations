@@ -7,10 +7,9 @@ var Annotation = require(path.join(__dirname, "..", "..", "..", "src", "annotati
 function PropertyAnnotation(parameters) {
     Annotation.call(this, parameters);
 }
+util.inherits(PropertyAnnotation, Annotation);
 
-PropertyAnnotation.prototype = {
-    prop: true
-};
+PropertyAnnotation.prototype.prop = true;
 
 PropertyAnnotation.getTargets = function () {
     return [

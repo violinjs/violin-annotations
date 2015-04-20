@@ -1,4 +1,6 @@
-var path = require("path");
+var assert = require("assert"),
+    should = require("should"),
+    path = require("path");
 
 var Annotation = require(path.join(__dirname, "..", "..", "src", "annotation", "Annotation.js"));
 

@@ -9,26 +9,23 @@ function A() {
 
 }
 
-A.prototype = {
+/**
+ * Test property
+ * @type {String}
+ * @PropertyAnnotation() @AnotherPropertyAnnotation("test inline")
+ */
+A.prototype.a = null;
 
-    /**
-     * Test property
-     * @type {String}
-     * @PropertyAnnotation() @AnotherPropertyAnnotation("test inline")
-     */
-    a: null,
+/** @PropertyAnnotation() */
+A.prototype.b = null;
 
-    /** @PropertyAnnotation() */
-    b: true,
-
-    /**
-     * Test method
-     * @MethodAnnotation()
-     */
-    c: function () {
-        var a = {};
-    }
-};
+/**
+ * Test method
+ * @MethodAnnotation()
+ */
+A.prototype.c = function () {
+    var a = {};
+}
 
 /**
  * Test method

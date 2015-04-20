@@ -1,13 +1,15 @@
-var path = require("path");
+var assert = require("assert"),
+    should = require("should"),
+    path = require("path");
 
 var Parser = require(path.join(__dirname, "..", "src", "Parser.js"));
 
-var TEST_FILE = path.join(__dirname, "case", "classes", "A.js"),
-    STR_ERROR_FILE = path.join(__dirname, "case", "classes", "B.js"),
-    ARRAY_ERROR_FILE = path.join(__dirname, "case", "classes", "C.js");
+var TEST_FILE = path.join(__dirname, "testcase", "classes", "A.js"),
+    STR_ERROR_FILE = path.join(__dirname, "testcase", "classes", "B.js"),
+    ARRAY_ERROR_FILE = path.join(__dirname, "testcase", "classes", "C.js");
 
 
-var ANNOTATION_PATH = path.join(__dirname, "case", "annotations"),
+var ANNOTATION_PATH = path.join(__dirname, "testcase", "annotations"),
     CLASS_ANNOTATION = path.join(ANNOTATION_PATH, "ClassAnnotation.js"),
     METHOD_ANNOTATION = path.join(ANNOTATION_PATH, "MethodAnnotation.js"),
     PROPERTY_ANNOTATION = path.join(ANNOTATION_PATH, "PropertyAnnotation.js");
@@ -52,7 +54,7 @@ describe("Parser", function () {
             });
         });
 
-        it("should return registerted annotations only", function (done) {
+        it("should return registered annotations only", function (done) {
             parser.parseFile(TEST_FILE, function (err, annotations) {
                 (!err).should.be.true;
 
@@ -60,6 +62,28 @@ describe("Parser", function () {
                 annotations.methodsAnnotations.c.length.should.be.exactly(1);
                 annotations.propertiesAnnotations.a.length.should.be.exactly(1);
                 done();
+            });
+        });
+    });
+
+    describe("#parseClass()", function () {
+        var B = function () {};
+        var registry = new violin.annotations.registry.AutoloaderRegistry(),
+            parser = new Parser(registry);
+
+        it("should return throw an error if class cannot be loaded", function () {
+            (function () {
+                parser.parseClass(B, function () {
+
+                });
+            }).should.throw;
+        });
+
+        it("should return an object asynchronously", function (done) {
+            parser.parseClass(tests.tests.A, function (err, annotations) {
+                (!err).should.be.true;
+                annotations.classAnnotations.length.should.be.exactly(1);
+                done()
             });
         });
     });
