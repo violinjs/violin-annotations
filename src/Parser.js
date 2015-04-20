@@ -2,7 +2,10 @@ var path = require("path"),
     async = require("async");
 
 var Es5Reader = require(path.join(__dirname, "reader", "Es5Reader.js")),
-    Registry = require(path.join(__dirname, "registry", "Registry.js"))
+    Registry = require(path.join(__dirname, "registry", "Registry.js")),
+    Annotation = require(path.join(__dirname, "annotation", "Annotation.js")),
+    Target = require(path.join(__dirname, "Target.js"));
+
 Target = require(path.join(__dirname, "Target.js"));
 
 
@@ -46,6 +49,9 @@ Parser.prototype = {
      */
     cache: {}
 };
+
+Parser.Annotation = Annotation;
+Parser.Target = Target;
 
 /**
  *
