@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --harmony --harmony-proxies --recursive --require ./test/autoloader.js"
+    "test": "mocha --harmony --harmony-proxies --recursive --require ./test/autoloader.js "
   },
   "repository": {
     "type": "git",

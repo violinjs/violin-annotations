@@ -2,9 +2,9 @@ var assert = require("assert"),
     should = require("should"),
     path = require("path");
 
-var Reader = require(path.join(__dirname, "..", "..", "src", "reader", "Es5Reader.js"));
+var Reader = require(path.join(ROOT, "src", "reader", "Es5Reader.js"));
 
-const TEST_FILE = path.join(__dirname, "..", "testcase", "classes", "A.js");
+const TEST_FILE = path.join(ROOT, "test-case", "testcase-es5", "classes", "A.js");
 
 describe("reader.Es5Reader", function () {
 
@@ -12,6 +12,7 @@ describe("reader.Es5Reader", function () {
         it('should return an array', function (done) {
             var reader = new Reader(TEST_FILE);
             reader.read(function (err, annotations) {
+                (!err).should.be.true;
                 annotations.should.be.an.Array;
                 done();
             });
@@ -20,6 +21,7 @@ describe("reader.Es5Reader", function () {
         it("should read all annotations in a file", function (done) {
             var reader = new Reader(TEST_FILE);
             reader.read(function (err, annotations) {
+                (!err).should.be.true;
                 annotations.length.should.be.exactly(7)
                 done();
             });
