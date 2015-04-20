@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --harmony --harmony-proxies --recursive"
+    "test": "mocha --harmony --harmony-proxies --recursive --require ./test/autoloader.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,8 @@
   "homepage": "https://github.com/violinjs/violin-annotations/",
   "devDependencies": {
     "mocha": "^2.2.4",
-    "should": "^6.0.1"
+    "should": "^6.0.1",
+    "violin-autoloader": "^0.5.1"
   },
   "dependencies": {
     "async": "^0.9.0"

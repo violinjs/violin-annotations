@@ -4,7 +4,7 @@ var assert = require("assert"),
 
 var Reader = require(path.join(__dirname, "..", "..", "src", "reader", "Es5Reader.js"));
 
-const TEST_FILE = path.join(__dirname, "..", "case", "classes", "A.js");
+const TEST_FILE = path.join(__dirname, "..", "testcase", "classes", "A.js");
 
 describe("reader.Es5Reader", function () {
 
