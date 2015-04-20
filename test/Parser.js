@@ -1,4 +1,6 @@
-var path = require("path");
+var assert = require("assert"),
+    should = require("should"),
+    path = require("path");
 
 var Parser = require(path.join(__dirname, "..", "src", "Parser.js"));
 
@@ -37,6 +39,7 @@ describe("Parser", function () {
 
         it("should return an object asynchronously", function (done) {
             parser.parseFile(TEST_FILE, function (err, annotations) {
+                console.log(annotations);
                 (!err).should.be.true;
                 annotations.should.be.an.Object.and.not.an.Array;
 

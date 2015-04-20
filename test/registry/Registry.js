@@ -1,4 +1,6 @@
-var path = require("path");
+var assert = require("assert"),
+    should = require("should"),
+    path = require("path");
 
 var Registry = require(path.join(__dirname, "..", "..", "src", "registry", "Registry.js"));
 
