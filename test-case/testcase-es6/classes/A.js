@@ -33,6 +33,4 @@ class A {
     }
 }
 
-console.log(new A());
-
 module.exports = A;
