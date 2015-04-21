@@ -31,6 +31,13 @@ class A {
     method() {
 
     }
+
+    /**
+     * @AnotherMethodAnnotation()
+     */
+    method1(a = 5, ...b) {
+
+    }
 }
 
 module.exports = A;
