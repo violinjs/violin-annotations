@@ -58,7 +58,7 @@ Es6Reader.CLASS_REGEX = new RegExp(Es6Reader.CLASS_PATTERN, "i");
 Es6Reader.PROTO_PATTERN = "^this\.(" + Es6Reader.ID + ")=(.+)";
 Es6Reader.PROTO_REGEX = new RegExp(Es6Reader.PROTO_PATTERN, "i");
 
-Es6Reader.DEF_PATTERN = "^(" + Es6Reader.ID + ")\\([a-z0-9_,]*\\){";
+Es6Reader.DEF_PATTERN = "^(" + Es6Reader.ID + ")\\(";
 Es6Reader.DEF_REGEX = new RegExp(Es6Reader.DEF_PATTERN, "i");
 
 /**
