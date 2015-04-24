@@ -104,7 +104,6 @@ Es6Reader.prototype.parse = function (callback) {
     try {
         while (this.tokenizer.hasMoreTokens()) {
             token = this.tokenizer.nextToken();
-
             if (this.state === Es6Reader.State.READING) {
                 if (token === "/**") {
                     this.state = Es6Reader.State.IN_COMMENT;
@@ -115,7 +114,7 @@ Es6Reader.prototype.parse = function (callback) {
 
             // Parse annotations
             if (this.state === Es6Reader.State.IN_ANNOTATION) {
-                if (token[0] === "@" || token === "*") {
+                if (token[0] === "@" || token === "*" || token === "*/") {
                     annotation = "";
                     this.state = Es6Reader.State.IN_COMMENT;
                 } else {
@@ -150,6 +149,12 @@ Es6Reader.prototype.parse = function (callback) {
 
             // Parse annotation target
             if (this.state === Es6Reader.State.IN_TARGET) {
+
+                if (block.length === 0) {
+                    this.state = Es6Reader.State.READING;
+                    continue;
+                }
+
                 var found = false,
                     matches;
                 target += token;
