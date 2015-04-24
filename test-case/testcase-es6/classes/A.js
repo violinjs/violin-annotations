@@ -4,14 +4,20 @@
  */
 class A {
 
+    /**
+     * @public
+     * @ConstructorAnnotations()
+     */
     constructor() {
 
         /**
+         * @private
          * @PropertyAnnotation()
          */
         this.prop = null;
 
         /**
+         * @private
          * @PropertyAnnotation()
          */
         this.prop2 = null;
