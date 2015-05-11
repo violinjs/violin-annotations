@@ -52,15 +52,22 @@ Tokenizer.prototype.nextToken = function () {
         return "";
     }
 
-    var token = "";
+    var token = "",
+        backslashesCount = 0;
     for (var i = this.pos; i < this.str.length; i++) {
         var c = this.str[i];
+
         this.pos++;
 
-        if (c === '"') {
-            if (this.str[i - 1] !== "\\") {
-                this.inString = !this.inString;
+        if (c === '\\') {
+            backslashesCount++;
+        } else {
+            if (c === '"') {
+                if (backslashesCount % 2 === 0) {
+                    this.inString = !this.inString;
+                }
             }
+            backslashesCount = 0;
         }
 
         if (c.match(Tokenizer.WHITE_SPACES) && !this.inString) {
