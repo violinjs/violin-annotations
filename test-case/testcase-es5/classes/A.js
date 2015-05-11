@@ -1,7 +1,7 @@
 /**
  * Test class
  * @constructor
- * @ns.ClassAnnotation("a=b", 0, d=0.5, s="string = \"{}\"", t={"a", "b{}", {"d"}, {}}, i=0)
+ * @ns.ClassAnnotation("a=b", 0, d=0.5, s="string = \"{}\"", t={"a", "b{}", {"d"}, {}}, i=0, j="quote = \"b\\\"")
  * @AnotherAnnotation()
  * @MethodAnnotation()
  */
@@ -24,7 +24,7 @@ A.prototype.b = null;
  * @MethodAnnotation()
  */
 A.prototype.c = function () {
-    var a = {};
+	var a = {};
 }
 
 /**
