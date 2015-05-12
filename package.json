@@ -1,6 +1,6 @@
 {
   "name": "violin-annotations",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Annotation parser for Node.js",
   "main": "src/Parser.js",
   "directories": {
