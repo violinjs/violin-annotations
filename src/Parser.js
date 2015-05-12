@@ -215,8 +215,10 @@ Parser.prototype.parseAnnotation = function (annotation) {
                     throw new Error("An error occurred : Expected Parameters end in \"" + annotation + "\"");
                 }
                 parametersEnd = false;
-                parameters.push(this.parseParameter(parameter));
-                parameter = "";
+                if (parameter !== "") {
+                    parameters.push(this.parseParameter(parameter));
+                    parameter = "";
+                }
                 continue;
             }
             parametersEnd = true;
