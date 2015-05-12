@@ -112,7 +112,6 @@ Parser.prototype.parseFile = function (filename, callback) {
         formattedAnnotations.classAnnotations = [];
         formattedAnnotations.methodsAnnotations = {};
         formattedAnnotations.propertiesAnnotations = {};
-
         async.each(annotations, function (annotation, cb) {
             var annotations;
             try {
@@ -143,7 +142,7 @@ Parser.prototype.parseFile = function (filename, callback) {
                         break;
                 }
             } catch (err) {
-                cb(err);
+                return cb(err);
             }
             cb();
         }, function (err) {
@@ -173,7 +172,8 @@ Parser.prototype.parseAnnotation = function (annotation) {
         parameters = [],
         p;
 
-    var inString = false;
+    var inString = false,
+        parametersEnd = true;
 
     for (var i = 0; i < annotation.length; i++) {
         var c = annotation[i];
@@ -202,20 +202,24 @@ Parser.prototype.parseAnnotation = function (annotation) {
                     };
                 if (parameter !== "") {
                     param.key = parameter.substr(0, parameter.length - 1);
-                    parameters.push(param);
-                    parameter = "";
                 }
+                parameters.push(param);
+                parameter = "";
+                parametersEnd = true;
                 i = t[0];
                 continue;
             }
 
-            if (c === ',' || c === ')') {
-                if (parameter !== "") {
-                    parameters.push(this.parseParameter(parameter));
-                    parameter = "";
+            if (c === ',' || c === ')' && !inString) {
+                if (!parametersEnd) {
+                    throw new Error("An error occurred : Expected Parameters end in \"" + annotation + "\"");
                 }
+                parametersEnd = false;
+                parameters.push(this.parseParameter(parameter));
+                parameter = "";
                 continue;
             }
+            parametersEnd = true;
             parameter += c;
         }
     }
@@ -231,7 +235,6 @@ Parser.prototype.parseAnnotation = function (annotation) {
         }
         parsedAnnotation.namedParameters[parameters[i].key] = parameters[i].value;
     }
-
     return parsedAnnotation;
 };
 
@@ -265,7 +268,7 @@ Parser.prototype.parseArrayParameter = function (annotation, pos) {
         }
 
         // Array separator
-        if (c === ',') {
+        if (c === ',' && !inString) {
             if (parameter !== "") {
                 arr.push(this.parseParameter(parameter).value);
                 parameter = "";

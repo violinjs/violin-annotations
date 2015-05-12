@@ -6,7 +6,8 @@ var Parser = require(path.join(__dirname, "..", "src", "Parser.js"));
 
 var TEST_FILE = path.join(ROOT, "test-case", "testcase-es5", "classes", "A.js"),
     STR_ERROR_FILE = path.join(ROOT, "test-case", "testcase-es5", "classes", "B.js"),
-    ARRAY_ERROR_FILE = path.join(ROOT, "test-case", "testcase-es5", "classes", "C.js");
+    ARRAY_ERROR_FILE = path.join(ROOT, "test-case", "testcase-es5", "classes", "C.js"),
+    COMA_ERROR_FILE = path.join(ROOT, "test-case", "testcase-es5", "classes", "D.js");
 
 
 var ANNOTATION_PATH = path.join(ROOT, "test-case", "testcase-es5", "annotations"),
@@ -23,10 +24,16 @@ describe("Parser", function () {
                 (!err).should.be.false;
                 err.message.should.containEql("Expected String end");
                 parser = new Parser();
+
                 parser.parseFile(ARRAY_ERROR_FILE, function (err) {
                     (!err).should.be.false;
                     err.message.should.containEql("Expected Array end");
-                    done();
+
+                    parser.parseFile(COMA_ERROR_FILE, function (err) {
+                        (!err).should.be.false;
+                        err.message.should.containEql("Expected Parameters end");
+                        done();
+                    });
                 });
             });
         });
@@ -71,7 +78,7 @@ describe("Parser", function () {
         var registry = new violin.annotations.registry.AutoloaderRegistry(),
             parser = new Parser(registry);
 
-        it("should return throw an error if class cannot be loaded", function () {
+        it("should throw an error if class cannot be loaded", function () {
             (function () {
                 parser.parseClass(B, function () {
 
