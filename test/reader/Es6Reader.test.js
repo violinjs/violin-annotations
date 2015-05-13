@@ -22,7 +22,8 @@ describe("reader.Es6Reader", function () {
             var reader = new Reader(TEST_FILE);
             reader.read(function (err, annotations) {
                 (!err).should.be.true;
-                annotations.length.should.be.exactly(7);
+                console.log(annotations);
+                annotations.length.should.be.exactly(12);
                 done();
             });
         });

@@ -44,6 +44,49 @@ class A {
     method1(a = 5, ...b) {
 
     }
+
+    /**
+     * @PropertyAnnotation()
+     */
+    get a() {
+        return this.prop;
+    }
+
+    /**
+     * @AnotherPropertyAnnotation()
+     */
+    set a(prop) {
+        this.prop = prop;
+        return true;
+    }
+
+    /**
+     * @PropertyAnnotation()
+     */
+    get b() {
+        return 1;
+    }
+
+    /**
+     * @public
+     */
+    set c(c) {
+        this._c = c;
+    }
+
+    /**
+     * @AnotherMethodAnnotation()
+     */
+    get() {
+
+    }
+
+    /**
+     * @AnotherMethodAnnotation()
+     */
+    set() {
+
+    }
 }
 
 module.exports = A;

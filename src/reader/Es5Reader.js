@@ -115,13 +115,13 @@ Es5Reader.prototype.parse = function (callback) {
 
             // Parse annotations
             if (this.state === Es5Reader.State.IN_ANNOTATION) {
-                if (token[0] === "@" || token === "*") {
+                if (token[0] === '@' || token === '*') {
                     annotation = "";
                     this.state = Es5Reader.State.IN_COMMENT;
                 } else {
                     annotation += token;
-                    if (annotation.substr(-1) === ")") {
-                        if (-1 < annotation.indexOf("(")) {
+                    if (annotation.substr(-1) === ')') {
+                        if (-1 < annotation.indexOf('(')) {
                             block.push(annotation.substring(1));
                         }
                         this.state = Es5Reader.State.IN_COMMENT;
@@ -137,8 +137,8 @@ Es5Reader.prototype.parse = function (callback) {
                     continue;
                 }
 
-                if (token[0] === "@") {
-                    if (token.substr(-1) === ")") {
+                if (token[0] === '@') {
+                    if (token.substr(-1) === ')') {
                         block.push(token.substring(1));
                         continue;
                     }

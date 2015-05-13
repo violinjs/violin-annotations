@@ -99,7 +99,8 @@ Es6Reader.prototype.parse = function (callback) {
         target = "",
         annotation = "",
         block = [],
-        annotations = [];
+        annotations = [],
+        getset = false;
 
     try {
         while (this.tokenizer.hasMoreTokens()) {
@@ -114,13 +115,13 @@ Es6Reader.prototype.parse = function (callback) {
 
             // Parse annotations
             if (this.state === Es6Reader.State.IN_ANNOTATION) {
-                if (token[0] === "@" || token === "*" || token === "*/") {
+                if (token[0] === '@' || token === '*' || token === "*/") {
                     annotation = "";
                     this.state = Es6Reader.State.IN_COMMENT;
                 } else {
                     annotation += token;
-                    if (annotation.substr(-1) === ")") {
-                        if (-1 < annotation.indexOf("(")) {
+                    if (annotation.substr(-1) === ')') {
+                        if (-1 < annotation.indexOf('(')) {
                             block.push(annotation.substring(1));
                         }
                         this.state = Es6Reader.State.IN_COMMENT;
@@ -136,8 +137,8 @@ Es6Reader.prototype.parse = function (callback) {
                     continue;
                 }
 
-                if (token[0] === "@") {
-                    if (token.substr(-1) === ")") {
+                if (token[0] === '@') {
+                    if (token.substr(-1) === ')') {
                         block.push(token.substring(1));
                         continue;
                     }
@@ -157,7 +158,13 @@ Es6Reader.prototype.parse = function (callback) {
 
                 var found = false,
                     matches;
-                target += token;
+
+                if ((target === "get" || target === "set") && token[0] !== '(') {
+                    target = token;
+                    getset = true;
+                } else {
+                    target += token;
+                }
 
                 if (matches = target.match(Es6Reader.CLASS_REGEX)) {
                     annotations.push({
@@ -169,17 +176,18 @@ Es6Reader.prototype.parse = function (callback) {
                 }
 
                 if (matches = target.match(Es6Reader.PROTO_REGEX)) {
-                    annotations.push(this.parsePrototype(matches, block));
+                    annotations.push(this.parsePrototype(matches, block, false));
                     found = true;
                 }
 
                 if (matches = target.match(Es6Reader.DEF_REGEX)) {
-                    annotations.push(this.parsePrototype(matches, block));
+                    annotations.push(this.parsePrototype(matches, block, getset));
                     found = true;
                 }
 
                 if (found) {
                     target = "";
+                    getset = false;
                     this.state = Es6Reader.State.READING;
                 }
             }
@@ -193,11 +201,21 @@ Es6Reader.prototype.parse = function (callback) {
 /**
  * Parse prototype definition
  * @param matches
+ * @param block
+ * @param getset
  * @returns {Object}
  * @private
  */
-Es6Reader.prototype.parsePrototype = function (matches, block) {
+Es6Reader.prototype.parsePrototype = function (matches, block, getset) {
+
     if (!matches[2]) {
+        if (getset) {
+            return {
+                type: Target.PROPERTY_ANNOTATION,
+                target: matches[1],
+                annotations: block
+            };
+        }
         return {
             type: Target.METHOD_ANNOTATION,
             target: matches[1],
