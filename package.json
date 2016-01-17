@@ -1,6 +1,6 @@
 {
   "name": "violin-annotations",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Annotation parser for Node.js",
   "main": "src/Parser.js",
   "directories": {
@@ -26,7 +26,7 @@
   "devDependencies": {
     "mocha": "^2.2.4",
     "should": "^6.0.1",
-    "violin-autoloader": "^0.5.1"
+    "violin-autoloader": "^1.0.0"
   },
   "dependencies": {
     "async": "^0.9.0"

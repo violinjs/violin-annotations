@@ -77,10 +77,10 @@ Parser.prototype.getRegistry = function () {
  * @param callback
  */
 Parser.prototype.parseClass = function (C, callback) {
-    if (!C._autoloader || !C._autoloader.filename) {
-        throw new Error("Impossible to parse class, C._autoloader.filename required");
+    if (!C._autoload || !C._autoload.file) {
+        throw new Error("Impossible to parse class, C._autoload.file required");
     }
-    this.parseFile(C._autoloader.filename, callback);
+    this.parseFile(C._autoload.file, callback);
 };
 
 /**
